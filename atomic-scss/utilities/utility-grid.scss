@@ -1,0 +1,172 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                   ///////////////////////////////////////////
+//  GRID (based on flexboxgrid.com)  ///////////////////////////////////////////
+//                                   ///////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+.container--fluid, 
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+
+}
+
+.container {
+    padding-right: $outer-margin;
+    padding-left: $outer-margin;
+
+    max-width: calc(#{$max-container-width} + 10vw);
+
+    @media (min-width: rem-to-em(256)) {
+        max-width: calc(#{$max-container-width} + 20vw);
+    }
+
+    .container {
+        padding: 0;
+    }
+}
+
+.container--fluid {
+    padding-right: $outer-margin;
+    padding-left: $outer-margin;
+
+    .container--fluid {
+        // No padding when nesting containers
+        padding: 0;
+    }
+} // .container--fluid
+
+.row {
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-right: calc(#{$gutter-compensation} * 1rem);
+    margin-left: calc(#{$gutter-compensation} * 1rem);
+}
+
+.row.reverse {
+    flex-direction: row-reverse;
+}
+
+.col.reverse {
+    flex-direction: column-reverse;
+}
+
+@mixin default-col {
+    flex: 0 0 auto;
+    padding-right: calc(#{$half-gutter-width} * 1rem);
+    padding-left: calc(#{$half-gutter-width} * 1rem);
+}
+
+.col-xs {
+    @include default-col;
+}
+
+.col-xs,
+.col-sm,
+.col-md,
+.col-lg {
+    flex-grow: 1;
+    flex-basis: 0;
+    max-width: 100%;
+}
+
+@for $i from 1 through $total-grid-items {
+    .col-xs-#{$i},
+    .col-xs-offset-#{$i} {
+        @include default-col;
+    }
+
+    .col-xs-#{$i} {
+        // flex-basis: if(($i = 0), 0, percentage(1 / (#{$total-grid-items} / #{$i})));
+        flex-basis: percentage($i / $total-grid-items);
+        max-width: percentage($i / $total-grid-items);
+        // max-width: if(($i = 0), 0, percentage(1 / ($total-grid-items / $i)));
+    }
+
+    .col-xs-offset-#{$i} {
+        margin-left: percentage($i / $total-grid-items);
+    }
+}
+
+
+// Small
+@media (min-width: $screen-sm-min) {
+
+    @for $i from 1 through $total-grid-items {
+        .col-sm-#{$i},
+        .col-sm-offset-#{$i} {
+            @include default-col;
+        }
+
+        .col-sm-#{$i} {
+            // flex-basis: if(($i = 0), 0, percentage(1 / (#{$total-grid-items} / #{$i})));
+            flex-basis: percentage($i / $total-grid-items);
+            max-width: percentage($i / $total-grid-items);
+            // max-width: if(($i = 0), 0, percentage(1 / ($total-grid-items / $i)));
+        }
+
+        .col-sm-offset-#{$i} {
+            margin-left: percentage($i / $total-grid-items);
+        }
+    }
+}
+
+// // Medium
+@media (min-width: $screen-md-min) {
+    @for $i from 1 through $total-grid-items {
+        .col-md-#{$i},
+        .col-md-offset-#{$i} {
+            @include default-col;
+        }
+
+        .col-md-#{$i} {
+            // flex-basis: if(($i = 0), 0, percentage(1 / (#{$total-grid-items} / #{$i})));
+            flex-basis: percentage($i / $total-grid-items);
+            max-width: percentage($i / $total-grid-items);
+            // max-width: if(($i = 0), 0, percentage(1 / ($total-grid-items / $i)));
+        }
+
+        .col-md-offset-#{$i} {
+            margin-left: percentage($i / $total-grid-items);
+        }
+    }  
+}
+
+// Large
+@media (min-width: $screen-lg-min) {
+    @for $i from 1 through $total-grid-items {
+        .col-lg-#{$i},
+        .col-lg-offset-#{$i} {
+            @include default-col;
+        }
+
+        .col-lg-#{$i} {
+            // flex-basis: if(($i = 0), 0, percentage(1 / (#{$total-grid-items} / #{$i})));
+            flex-basis: percentage($i / $total-grid-items);
+            max-width: percentage($i / $total-grid-items);
+            // max-width: if(($i = 0), 0, percentage(1 / ($total-grid-items / $i)));
+        }
+
+        .col-lg-offset-#{$i} {
+            margin-left: percentage($i / $total-grid-items);
+        }
+    }    
+}
+
+.first-xs,
+.first-sm,
+.first-md,
+.first-lg {
+    order: -1;
+}
+
+.last-xs,
+.last-sm,
+.last-md,
+.last-lg {
+    order: 1;
+}

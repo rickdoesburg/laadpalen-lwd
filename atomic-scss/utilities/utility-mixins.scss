@@ -1,0 +1,16 @@
+////////////////////////////////////////////////////////////////////////////////
+//                            //////////////////////////////////////////////////
+//	MIXINS         			  //////////////////////////////////////////////////
+//                            //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// REM VALUE / 1.6 (16px, browser default)
+// We do this because we can't use REM values in Media queries
+@function rem-to-em($remvalue) {
+    $calc: $remvalue / 1.6;
+    @return #{$calc}em;
+}
+
+@function screenbased-calculation($minvalue, $maxvalue, $minsc: $minscreensize, $maxsc: $maxscreensize, $divider: 1, $multiply: 1){
+    @return calc((#{$minvalue * 1rem} + #{($maxvalue - $minvalue)} * (100vw - #{$minscreensize * 1rem}) / #{($maxscreensize - $minscreensize)}) / #{$divider} * #{$multiply});
+}

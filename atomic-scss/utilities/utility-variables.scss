@@ -1,0 +1,62 @@
+////////////////////////////////////////////////////////////////////////////////
+//                            //////////////////////////////////////////////////
+//	VARIABLES       	      //////////////////////////////////////////////////
+//                            //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// COLORS
+// --------------------------------------------------
+$fbto-midnight-blue: #002e6e;
+$seashell-grey: #f1f1f1;
+$barry-white: #fff;
+
+$main-font-color: $fbto-midnight-blue;
+
+
+// MARGINS / PADDINGS IN VARIABLES!
+// --------------------------------------------------
+
+
+// TRANSITION SETTINGS
+// --------------------------------------------------
+
+
+// BORDER RADIUS
+// --------------------------------------------------
+$base-border-radius: .3rem;
+
+
+// MINIMAL AND MAXIMAL SCREENSIZE USED FOR CALCULATIONS
+// --------------------------------------------------
+$minscreensize: 36; // this is a rem value (without unit)
+$maxscreensize: 192; // this is a rem value (without unit)
+
+// FONTS
+// --------------------------------------------------
+$main-font: 'Montserrat', sans-serif;
+
+
+// IMAGE PATH
+// --------------------------------------------------
+$img-path: "/assets/images/";
+
+
+// FONTS PATH
+// --------------------------------------------------
+$fonts-path: "/assets/fonts/";
+
+// GRID SETTINGS
+// --------------------------------------------------
+$gutter-width: 1.6;
+$outer-margin: 0.8rem;
+$gutter-compensation: ($gutter-width * 0.5) * -1;
+$half-gutter-width: $gutter-width * 0.5;
+
+// REM VALUES DO NOT WORK AS THEY DON'T USE THE HTML FONT-SIZE (62.5%) BUT THE BROWSER DEFAULT FONT-SIZE
+// https://fvsch.com/browser-bugs/rem-mediaquery/
+$screen-sm-min: (57.6 / 1.6) * 1em;
+$screen-md-min: (76.8 / 1.6) * 1em;
+$screen-lg-min: (99.2 / 1.6) * 1em;
+$screen-xl-min: (114 / 1.6) * 1em;
+$total-grid-items: 12;
+$max-container-width: 1136px;

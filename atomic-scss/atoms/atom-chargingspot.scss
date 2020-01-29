@@ -1,0 +1,30 @@
+////////////////////////////////////////////////////////////////////////////////
+//                            //////////////////////////////////////////////////
+//	CHARGING SPOT 			  //////////////////////////////////////////////////
+//                            //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+.chargingspots {
+    display: flex;
+    justify-content: center;
+}
+
+.chargingspots__spot {
+    display: flex;
+    flex-direction: column;
+    margin: 0 2rem;
+    padding: screenbased-calculation($minvalue:2.4, $maxvalue: 4.0);
+
+    border-radius: $base-border-radius;
+    border: 1px solid #efeeeb;
+
+    background-color: $barry-white;
+
+    &.is-available {
+        border-top: .2rem solid green;
+    }
+
+    &.is-unavailable {
+        border-top: .2rem solid #b00b13;
+    }
+}
