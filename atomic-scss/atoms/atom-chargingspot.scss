@@ -6,25 +6,69 @@
 
 .chargingspots {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+
+    @media (min-width: $screen-lg-min) {
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
 
-.chargingspots__spot {
+.chargingspot {
     display: flex;
     flex-direction: column;
-    margin: 0 2rem;
-    padding: screenbased-calculation($minvalue:2.4, $maxvalue: 4.0);
+    align-items: center;
+    width: 100%;
+    padding: screenbased-calculation($minvalue:2.4, $maxvalue:4.0);
+    margin-bottom: 2.4rem;
 
     border-radius: $base-border-radius;
+    box-shadow: 0 15px 30px 0 rgba(0,0,0,0.07), 0 6px 10px 0 rgba(0,0,0,0.03);
     border: 1px solid #efeeeb;
 
     background-color: $barry-white;
 
+    @media (min-width: $screen-lg-min) {
+        width: calc(50% - calc(#{$gutter-width} * 1rem));
+    }
+
     &.is-available {
-        border-top: .2rem solid green;
+        border-top: .3rem solid $green;
+
+        svg {
+            color: $green;
+        }
     }
 
     &.is-unavailable {
-        border-top: .2rem solid #b00b13;
+        border-top: .3rem solid $yellow;
+
+        svg {
+            color: $yellow;
+        }
+    }
+
+    svg {
+        width: 10.4rem;
+        margin-bottom: screenbased-calculation($minvalue:2.4, $maxvalue:4.0);
     }
 }
+
+.chargingspot__identifier {
+    margin-bottom: screenbased-calculation($minvalue:2.4, $maxvalue:4.0);
+}
+
+.chargingspot__status {
+    font-size: screenbased-calculation($minvalue:2.4, $maxvalue: 3.6);
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1;
+
+    .is-available & {
+        color: $green;
+    }
+
+    .is-unavailable & {
+        color: $yellow;
+    }
+} // .charginspot__status

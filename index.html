@@ -24,7 +24,7 @@
         </div>
 
         <div v-for="chargingspots in results">
-            {{ chargingspots.status }}
+            {{ chargingspots.status | chargingspotStatusValue }}
         </div>
     </div>
 

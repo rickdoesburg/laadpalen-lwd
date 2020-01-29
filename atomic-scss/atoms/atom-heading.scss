@@ -8,11 +8,12 @@ h1, h2, h3, h4, h5 {
     font-weight: normal;
     font-family: $main-font;
     font-weight: 600;
+    color: $charcoal;
 }
 
 h1 {
-    margin-bottom: screenbased-calculation($minvalue:1.2, $maxvalue: 2.0);
+    margin-bottom: screenbased-calculation($minvalue:1.2, $maxvalue:2.0);
 
-    font-size: screenbased-calculation($minvalue:3.2, $maxvalue: 6.4);
+    font-size: screenbased-calculation($minvalue:3.2, $maxvalue:6.4);
     line-height: 1.25;
 }
