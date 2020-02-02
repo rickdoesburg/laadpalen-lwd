@@ -37,7 +37,7 @@ gulp.task('sass', function() {
 
 // Compile html and move to dist
 gulp.task('compile-html', function() {
-  return gulp.src(['components/pages/*.html', './components/templates/*.html'])
+  return gulp.src(['components/pages/*.*', './components/templates/*.*'])
     .pipe(fileInclude({
       prefix: '@@',
       basepath: '@file'
@@ -72,7 +72,7 @@ gulp.task('favicons', function() {
 gulp.task('watch', function() {
     gulp.watch('assets/js/*.js', gulp.series('lint', 'scripts'));
     gulp.watch('atomic-scss/**/*.scss', gulp.parallel('sass'));
-    gulp.watch('components/**/*.html', gulp.series('compile-html'));
+    gulp.watch('components/**/*.*', gulp.series('compile-html'));
 });
 
 // Syncin dat browser

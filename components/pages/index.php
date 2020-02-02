@@ -53,6 +53,71 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-8 col-md-offset-2">
+                <h2>Historische gegevens</h2>
+                <div class="history-table">
+                    <div class="flex-row flex-row--header">
+                        <div class="flex-cell">Laadpaal</div>
+                        <div class="flex-cell">Start van sessie</div>
+                        <div class="flex-cell">Duratie</div>
+                    </div>
+                    <?php 
+
+                        // ADD DB CREDENTIALS
+                    
+                        // Create connection
+                        $conn = new mysqli($host, $user, $passwd, $database);
+                        // Check connection
+                        if ($conn->connect_error) {
+                            die("Connection failed: " . $conn->connect_error);
+                        }
+
+                        $sql = "SELECT id, timestamp, status FROM laadsessie";
+                        $result = $conn->query($sql);
+
+                        // OUDE IF WHILE
+                        // if ($result->num_rows > 0) {
+                        //     // output data of each row
+                        //     // $row = $result->fetch_assoc();
+                        //     $prevStatus = $row["status"];
+                        //     // echo $prevStatus;
+                            
+                        //     while($row = $result->fetch_assoc()) {
+                        //         $timestamp = $row["timestamp"];
+                        //         $timestampToDate = DateTime::createFromFormat('Y-m-d H:i:s', $timestamp)->format('D d M Y H:i');
+
+                        //         echo "<div class='flex-row'><div class='flex-cell'>" .$row["id"]."</div><div class='flex-cell'>".$timestampToDate. "</div><div class='flex-cell'>" .$row["status"]."</div></div>";                       
+                        //     }
+                        // } else {
+                        //     echo "0 results";
+                        // };
+
+
+                        if ($result->num_rows > 0) {
+                            // output data of each row
+                            $row = $result->fetch_assoc();
+                            $prevStatus = $row["status"];
+                            // echo $prevStatus;
+
+                            do {
+                                $timestamp = $row["timestamp"];
+                                $timestampToDate = DateTime::createFromFormat('Y-m-d H:i:s', $timestamp)->format('D d M Y H:i');
+
+
+                            echo "<div class='flex-row'><div class='flex-cell'>" .$row["id"]."</div><div class='flex-cell'>".$timestampToDate. "</div><div class='flex-cell'>" .$row["status"]."</div></div>";                       
+
+                            } while ($row["status"] !== $prevStatus);
+
+                        } else {
+                            echo "0 results";
+                        }
+
+                        $conn->close();
+                    ?>
+                </div>
+            </div>
+        </div>
     </div>
 
 	@@include('../utilities/utility-scripts.html')

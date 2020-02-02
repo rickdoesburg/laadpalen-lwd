@@ -33,18 +33,18 @@
     }
 
     &.is-available {
-        border-top: .3rem solid $green;
+        border-top: .3rem solid $lima-green;
 
         svg {
-            color: $green;
+            color: $lima-green;
         }
     }
 
     &.is-unavailable {
-        border-top: .3rem solid $yellow;
+        border-top: .3rem solid $sun-yellow;
 
         svg {
-            color: $yellow;
+            color: $sun-yellow;
         }
     }
 
@@ -58,6 +58,10 @@
     margin-bottom: screenbased-calculation($minvalue:2.4, $maxvalue:4.0);
 }
 
+.chargingspot__duration {
+    color: #b3b3b3;
+}
+
 .chargingspot__status {
     font-size: screenbased-calculation($minvalue:2.4, $maxvalue: 3.6);
     font-weight: bold;
@@ -65,10 +69,10 @@
     line-height: 1;
 
     .is-available & {
-        color: $green;
+        color: $lima-green;
     }
 
     .is-unavailable & {
-        color: $yellow;
+        color: $sun-yellow;
     }
 } // .charginspot__status
