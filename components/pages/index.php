@@ -73,41 +73,34 @@
                             die("Connection failed: " . $conn->connect_error);
                         }
 
-                        $sql = "SELECT id, timestamp, status FROM laadsessie";
+                        $sql = "SELECT * FROM laadsessie ORDER BY unique_id ASC";
                         $result = $conn->query($sql);
-
-                        // OUDE IF WHILE
-                        // if ($result->num_rows > 0) {
-                        //     // output data of each row
-                        //     // $row = $result->fetch_assoc();
-                        //     $prevStatus = $row["status"];
-                        //     // echo $prevStatus;
-                            
-                        //     while($row = $result->fetch_assoc()) {
-                        //         $timestamp = $row["timestamp"];
-                        //         $timestampToDate = DateTime::createFromFormat('Y-m-d H:i:s', $timestamp)->format('D d M Y H:i');
-
-                        //         echo "<div class='flex-row'><div class='flex-cell'>" .$row["id"]."</div><div class='flex-cell'>".$timestampToDate. "</div><div class='flex-cell'>" .$row["status"]."</div></div>";                       
-                        //     }
-                        // } else {
-                        //     echo "0 results";
-                        // };
-
 
                         if ($result->num_rows > 0) {
                             // output data of each row
                             $row = $result->fetch_assoc();
-                            $prevStatus = $row["status"];
+                            $prevRow = $row;
+                            $startSession = DateTime::createFromFormat('Y-m-d H:i:s', $row["timestamp"]);
+                            echo $row['timestamp'].'<br/>';
                             // echo $prevStatus;
 
                             do {
-                                $timestamp = $row["timestamp"];
-                                $timestampToDate = DateTime::createFromFormat('Y-m-d H:i:s', $timestamp)->format('D d M Y H:i');
+                                if ($prevRow['status'] == 'Available' && $row['status'] == 'Occupied') {
+                                    $startSession = DateTime::createFromFormat('Y-m-d H:i:s', $row["timestamp"]);
+                                    echo $row['timestamp'].'<br/>';
+                                }
+                                else if ($prevRow['status'] == 'Occupied' && $row['status'] == 'Available' ) {
+                                    $endSession = DateTime::createFromFormat('Y-m-d H:i:s', $row["timestamp"]);
+                                    echo $startSession->format('Y-m-d H:i:s').'<br/>';
+                                    echo $endSession->format('Y-m-d H:i:s').'<br/>';
+                                    $sessionTime = $endSession->diff($startSession);
 
+                                    echo "<div class='flex-row'><div class='flex-cell'>".$row["id"]."</div><div class='flex-cell'>".$sessionTime->format('%H:%I:%S')."</div><div class='flex-cell'>" .$row["status"]."</div></div>";
+                                }                                
 
-                            echo "<div class='flex-row'><div class='flex-cell'>" .$row["id"]."</div><div class='flex-cell'>".$timestampToDate. "</div><div class='flex-cell'>" .$row["status"]."</div></div>";                       
+                                $prevRow = $row;
 
-                            } while ($row["status"] !== $prevStatus);
+                            } while ($row = $result->fetch_assoc());
 
                         } else {
                             echo "0 results";
