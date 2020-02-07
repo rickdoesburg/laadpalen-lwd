@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge; chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-	<title>Actuele status Laadpalen Gebouw 5 - Achmeatoren</title>
+    <title>Actuele status Laadpalen Gebouw 5 - Achmeatoren</title>
 
-	<meta name="description" content="Bekijk de status van de Laadpalen op P5">
-	<meta property="og:image" content="http://example.com/image.jpg">
-	<meta property="og:site_name" content="Laadpalen P5">
-	<meta property="og:title" content="Laadpalen P5">
-	<meta property="og:description"content="ekijk de status van de Laadpalen op P5">
-	<meta property="og:url" content="http://kanikladen.nl/index.html"> 
-	<meta property="og:locale" content="nl_NL">
+    <meta name="description" content="Bekijk de status van de Laadpalen op P5">
+    <meta property="og:image" content="http://example.com/image.jpg">
+    <meta property="og:site_name" content="Laadpalen P5">
+    <meta property="og:title" content="Laadpalen P5">
+    <meta property="og:description"content="ekijk de status van de Laadpalen op P5">
+    <meta property="og:url" content="http://kanikladen.nl/index.html"> 
+    <meta property="og:locale" content="nl_NL">
     
     <!-- FAVICONS -->
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
@@ -27,7 +27,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,700&display=swap" rel="stylesheet">
 </head>
 <body>
-	<noscript>
+    <noscript>
         <strong>We're sorry but laadpalen-leeuwarden doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app" class="container">
@@ -63,6 +63,17 @@
                         <div class="flex-cell">Duratie</div>
                     </div>
                     <?php 
+                        class Laadpaal {
+                            public $id;
+                            public $status;
+                            public $timestamp;
+
+                            public function __construct($id, $status, $timestamp) {
+                                $this->id = $id;
+                                $this->status = $status;
+                                $this->timestamp = DateTime::createFromFormat('Y-m-d H:i:s', $timestamp);
+                            }
+                        }
 
                         // ADD DB CREDENTIALS
                     
@@ -77,28 +88,40 @@
                         $result = $conn->query($sql);
 
                         if ($result->num_rows > 0) {
-                            // output data of each row
                             $row = $result->fetch_assoc();
-                            $prevRow = $row;
-                            $startSession = DateTime::createFromFormat('Y-m-d H:i:s', $row["timestamp"]);
+                            $current = new Laadpaal($row['id'], $row['status'], $row['timestamp']); 
+
+                            $laadpalen = array();
+
+                            //$prevLaadpaal = $laadpalen[$current->id];
+                            //$startSession = $current->timestamp;
                             echo $row['timestamp'].'<br/>';
-                            // echo $prevStatus;
 
                             do {
-                                if ($prevRow['status'] == 'Available' && $row['status'] == 'Occupied') {
-                                    $startSession = DateTime::createFromFormat('Y-m-d H:i:s', $row["timestamp"]);
+                                $current = new Laadpaal($row['id'], $row['status'], $row['timestamp']);
+                                $prevLaadpaal = $laadpalen[$current->id];
+
+                                if ($prevLaadpaal == NULL) {
+                                    $laadpalen[$current->id] = $current;
+                                    $prevLaadpaal = $current;
+                                }
+
+                                echo $prevLaadpaal->id.'<br/>';
+                                if ($prevLaadpaal->status == 'Available' && $current->status == 'Occupied') {
+                                    //$startSession = $current->timestamp;
+                                    $laadpalen[$current->id] = $current->id;
+
                                     echo $row['timestamp'].'<br/>';
                                 }
-                                else if ($prevRow['status'] == 'Occupied' && $row['status'] == 'Available' ) {
-                                    $endSession = DateTime::createFromFormat('Y-m-d H:i:s', $row["timestamp"]);
-                                    echo $startSession->format('Y-m-d H:i:s').'<br/>';
-                                    echo $endSession->format('Y-m-d H:i:s').'<br/>';
+                                else if ($prevLaadpaal->status == 'Occupied' && $current->status == 'Available' ) {
+                                    $startSession = $prevLaadpaal->timestamp;
+                                    $endSession = $current->timestamp;
+                                    //echo $startSession->format('Y-m-d H:i:s').'<br/>';
+                                    //echo $endSession->format('Y-m-d H:i:s').'<br/>';
                                     $sessionTime = $endSession->diff($startSession);
 
-                                    echo "<div class='flex-row'><div class='flex-cell'>".$row["id"]."</div><div class='flex-cell'>".$sessionTime->format('%H:%I:%S')."</div><div class='flex-cell'>" .$row["status"]."</div></div>";
-                                }                                
-
-                                $prevRow = $row;
+                                    echo "<div class='flex-row'><div class='flex-cell'>".$current->id."</div><div class='flex-cell'>".$sessionTime->format('%H:%I:%S')."</div><div class='flex-cell'>" .$current->status."</div></div>";
+                                }
 
                             } while ($row = $result->fetch_assoc());
 
@@ -113,6 +136,6 @@
         </div>
     </div>
 
-	@@include('../utilities/utility-scripts.html')
+    @@include('../utilities/utility-scripts.html')
 </body>
 </html>
